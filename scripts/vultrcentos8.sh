@@ -57,12 +57,10 @@ setuid 65535
 stacksize 6291456 
 flush
 auth strong
-
 users $(awk -F "/" 'BEGIN{ORS="";} {print $1 ":CL:" $2 " "}' ${WORKDATA})
-
 $(awk -F "/" '{print "auth strong\n" \
 "allow " $1 "\n" \
-"socks -6 -n -p" $4 " -i" $3 " -e"$5"\n" \
+"proxy -6 -n -a -p" $4 " -i" $3 " -e"$5"\n" \
 "flush\n"}' ${WORKDATA})
 EOF
 }
@@ -117,7 +115,7 @@ IP6=$(curl -6 -s icanhazip.com | cut -f1-4 -d':')
 echo "Internal ip = ${IP4}. Exteranl sub for ip6 = ${IP6}"
 
 FIRST_PORT=10000
-LAST_PORT=12000
+LAST_PORT=11000
 
 gen_data >$WORKDIR/data.txt
 gen_iptables >$WORKDIR/boot_iptables.sh
